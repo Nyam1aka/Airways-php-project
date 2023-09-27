@@ -1,0 +1,84 @@
+CREATE TABLE admin (
+	admin_id int(11) NOT NULL AUTO_INCREMENT,
+   admin_uname varchar(20) NOT NULL,
+   admin_email varchar(50) NOT NULL,
+   admin_pwd varchar(100) NOT NULL,
+    PRIMARY KEY (admin_id)
+);
+
+CREATE TABLE uers (
+   user_id  int(11) NOT NULL AUTO_INCREMENT,
+   username varchar(20) NOT NULL,
+   email varchar(50) NOT NULL,
+   password varchar(100) NOT NULL,
+    PRIMARY KEY (user_id)
+);
+
+CREATE TABLE contact (
+   contact_id int(11) NOT NULL AUTO_INCREMENT,
+   FirstName varchar(50) NOT NULL,
+   LastName varchar(50) NOT NULL,
+   Phone int(10) NOT NULL,
+   Email varchar(100) NOT NULL,
+   Message text NOT NULL,
+   registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (contact_id)
+);
+
+CREATE TABLE flights (
+   flight_id  int(11) NOT NULL AUTO_INCREMENT,
+   admin_id int(11) NOT NULL,
+   source varchar(100) NOT NULL,
+   destination varchar(100) NOT NULL,
+   departure datetime NOT NULL,
+   arrival datetime NOT NULL,
+   flightname varchar(100) NOT NULL,
+   Aseats int(11) NOT NULL,
+   Aprice decimal(10,2) NOT NULL,
+   Bseats int(11) NOT NULL,
+   Bprice decimal(10,2) NOT NULL,
+   Cseats int(11) NOT NULL,
+   Cprice decimal(10,2) NOT NULL,
+   PRIMARY KEY (flight_id),
+   FOREIGN KEY (admin_id ) REFERENCES admin(admin_id)
+);
+
+CREATE TABLE passenger_profile (
+   passenger_id int(11) NOT NULL AUTO_INCREMENT,
+   user_id  int(11) NOT NULL,
+   flight_id int(11) NOT NULL,
+   mobile int(10) NOT NULL,
+   dob date NOT NULL,
+   Id_number int(8) NOT NULL, 
+   f_name varchar(20) NOT NULL,
+   m_name varchar(20) NOT NULL,
+   l_name varchar(20) NOT NULL,
+   class char(1) NOT NULL,
+   PRIMARY KEY (passenger_id),
+   FOREIGN KEY (user_id ) REFERENCES users(user_id),
+    FOREIGN KEY (flight_id ) REFERENCES flights(flight_id)
+);
+
+CREATE TABLE payment (
+   flight_id   int(11) NOT NULL,
+   passenger_id  int(11) NOT NULL,
+   payment_method varchar(10) NOT NULL,
+   phone_no int(10) NOT NULL,
+   payment_date date NOT NULL,
+   amount int(11) NOT NULL,
+    FOREIGN KEY (flight_id ) REFERENCES flights(flight_id)
+);
+
+CREATE TABLE ticket (
+   ticket_id int(11) NOT NULL AUTO_INCREMENT,
+   passenger_id int(11) NOT NULL,
+   flight_id int(11) NOT NULL,
+   user_id int(11) NOT NULL,
+   seat_no varchar(10) NOT NULL,
+   cost int(11) NOT NULL,
+   class char(1) NOT NULL,
+   ticket_code int(10) NOT NULL,
+    PRIMARY KEY (ticket_id ),
+    FOREIGN KEY (flight_id ) REFERENCES flights(flight_id),
+     FOREIGN KEY (user_id ) REFERENCES users(user_id)
+);
